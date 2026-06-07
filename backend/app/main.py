@@ -6,6 +6,10 @@ from app.api import health_router
 from app.config import settings
 from app.core import configure_logging
 from app.db import MongoManager
+from app.kafka.manager import (
+    start_kafka,
+    stop_kafka,
+)
 
 
 @asynccontextmanager
@@ -15,7 +19,11 @@ async def lifespan(app: FastAPI):
 
     await MongoManager.connect()
 
+    await start_kafka()
+
     yield
+
+    await stop_kafka()
 
     await MongoManager.close()
 

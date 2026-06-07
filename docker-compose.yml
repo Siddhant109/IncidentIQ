@@ -21,6 +21,9 @@ services:
       - KAFKA_TRANSACTION_STATE_LOG_MIN_ISR=1
       - KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS=0
       - KAFKA_NUM_PARTITIONS=3
+    
+    volumes:
+      - kafka_data:/tmp/kafka-logs
 
   mongodb:
     image: mongo:7
@@ -28,6 +31,9 @@ services:
 
     ports:
       - "27017:27017"
+
+    volumes:
+      - mongo_data:/data/db
 
   ollama:
     image: ollama/ollama
@@ -68,3 +74,7 @@ services:
 
     ports:
       - "3000:3000"
+  
+volumes:
+  kafka_data:
+  mongo_data:
