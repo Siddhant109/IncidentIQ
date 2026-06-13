@@ -14,12 +14,17 @@ from app.kafka.manager import (
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    from app.simulators.manager import (
+        SimulatorManager
+    )
 
     configure_logging()
 
     await MongoManager.connect()
 
     await start_kafka()
+
+    await SimulatorManager.start()
 
     yield
 
